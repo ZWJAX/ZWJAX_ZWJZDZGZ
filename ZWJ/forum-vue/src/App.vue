@@ -100,7 +100,7 @@
                   <img v-if="cat.name==='动漫'" src="/img/动漫.ico" style="width:22px;height:22px;vertical-align:middle;" />
                   <img v-else-if="cat.name==='影视'" src="/img/影视.ico" style="width:22px;height:22px;vertical-align:middle;" />
                   <img v-else-if="cat.name==='游戏'" src="/img/游戏.ico" style="width:22px;height:22px;vertical-align:middle;" />
-                  <img v-else-if="cat.name==='生活'" src="/img/生活.ico" style="width:22px;height:22px;vertical-align:middle;" />
+                  <img v-else-if="cat.name==='情感'" src="/img/情感.ico" style="width:22px;height:22px;vertical-align:middle;" />
                   <img v-else-if="cat.name==='数码'" src="/img/数码.ico" style="width:22px;height:22px;vertical-align:middle;" />
                   <img v-else-if="cat.name==='车'" src="/img/车.ico" style="width:22px;height:22px;vertical-align:middle;" />
                   <img v-else-if="cat.name==='房'" src="/img/房.ico" style="width:22px;height:22px;vertical-align:middle;" />
@@ -232,11 +232,25 @@ const loginForm = reactive({
   password: ''
 });
 // 登录处理
-function handleLogin() {
-  if (loginForm.username && loginForm.password) {
-    isLogin.value = true;
-  } else {
+async function handleLogin() {
+  if (!loginForm.username || !loginForm.password) {
     alert('请输入用户名和密码');
+    return;
+  }
+  // 调用后端接口校验
+const res = await fetch('/api/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    username: loginForm.username,
+    password: loginForm.password
+  })
+});
+  const data = await res.json();
+  if (data.success) {
+    isLogin.value = true; // 登录成功才进入论坛
+  } else {
+    alert(data.message); // 登录失败弹窗
   }
 }
 // 退出登录
@@ -251,7 +265,7 @@ const categories = [
   { name: '动漫', icon: 'img', color: '#a78bfa' },
   { name: '影视', icon: '🎥', color: '#fbbf24' },
   { name: '游戏', icon: '🎮', color: '#f472b6' },
-  { name: '生活', icon: '🌈', color: '#34d399' },
+  { name: '情感', icon: '🌈', color: '#34d399' },
   { name: '数码', icon: '💻', color: '#60a5fa' },
   { name: '车', icon: '🚗', color: '#7c3aed' },
   { name: '房', icon: '🏠', color: '#ffb700' }
@@ -370,7 +384,9 @@ async function submitComment(post) {
 }
 
 body {
-  background: #031323;
+  /* 使用 img 文件夹下的草原图片作为背景 */
+  background: url('/img/草原.jpg') no-repeat center center fixed;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -441,7 +457,7 @@ body {
 .zh-sidebar {
   width: 170px;
   min-width: 120px;
-  background: #fff;
+   background: white;
   border-right: 1px solid #f0f1f2;
   min-height: 100vh;
   padding: 24px 0 24px 0;
@@ -476,7 +492,7 @@ body {
 }
 .zh-sidebar nav li.active,
 .zh-sidebar nav li:hover {
-  background: #ede9fe;
+  background:transparent;
   color: #ff4500;
 }
 .zh-sidebar-icon {
@@ -694,12 +710,12 @@ section.login-section {
 }
 
 /* 其余论坛样式保持不变 ... */
-.forum-layout {
+/* .forum-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #f6f7f8;
-}
+}*/
 .main-navbar {
   width: 100%;
   background: #fff;
@@ -804,11 +820,13 @@ section.login-section {
   flex-direction: column;
   position: relative;
   min-width: 0;
+    background: transparent; /* 半透明白色 */
+  /* 毛玻璃效果，可选 */
 }
 .forum-footer {
   text-align: center;
   padding: 16px 0;
-  background: #ede9fe;
+  background:transparent;
   color: #7c3aed;
   font-size: 1rem;
   letter-spacing: 1px;
@@ -826,7 +844,7 @@ section.login-section {
 .post-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #fff; /* 白色背景 */
   border-radius: 12px;
   box-shadow: 0 2px 8px #0001;
   margin-bottom: 18px;
@@ -1224,5 +1242,14 @@ section.login-section {
   .big-title {
     font-size: 1.3rem !important;
       }
+}
+</style>
+
+
+<style>
+body {
+  background: url('/img/草原.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
 }
 </style>

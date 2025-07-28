@@ -370,7 +370,9 @@ async function submitComment(post) {
 }
 
 body {
-  background: #031323;
+  /* 使用 img 文件夹下的草原图片作为背景 */
+  background: url('/img/草原.jpg') no-repeat center center fixed;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -441,7 +443,7 @@ body {
 .zh-sidebar {
   width: 170px;
   min-width: 120px;
-  background: #fff;
+   background: #fff;
   border-right: 1px solid #f0f1f2;
   min-height: 100vh;
   padding: 24px 0 24px 0;
@@ -694,12 +696,12 @@ section.login-section {
 }
 
 /* 其余论坛样式保持不变 ... */
-.forum-layout {
+/* .forum-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #f6f7f8;
-}
+}*/
 .main-navbar {
   width: 100%;
   background: #fff;
@@ -826,7 +828,7 @@ section.login-section {
 .post-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
+  /*background: #fff;*/
   border-radius: 12px;
   box-shadow: 0 2px 8px #0001;
   margin-bottom: 18px;
@@ -1224,5 +1226,14 @@ section.login-section {
   .big-title {
     font-size: 1.3rem !important;
       }
+}
+</style>
+
+
+<style>
+body {
+  background: url('/img/草原.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
 }
 </style>
